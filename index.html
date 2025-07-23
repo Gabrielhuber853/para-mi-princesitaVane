@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Feliz 15° Aniversario, Directioner</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(to bottom right, #fef6ff, #ffe6f0);
+      color: #333;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-top: 50px;
+      color: #d63384;
+    }
+
+    p {
+      font-size: 1.3rem;
+      margin: 20px auto;
+      max-width: 700px;
+      color: #555;
+    }
+
+    .gif-container {
+      margin: 30px auto;
+    }
+
+    img {
+      width: 300px;
+      border-radius: 20px;
+      box-shadow: 0 0 20px rgba(214, 51, 132, 0.3);
+    }
+
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: -1;
+    }
+
+    .heart {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      transform: rotate(45deg);
+      animation: float 6s infinite ease-in;
+      opacity: 0.6;
+    }
+
+    .heart::before,
+    .heart::after {
+      content: '';
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background-color: #ff69b4;
+      border-radius: 50%;
+    }
+
+    .heart::before {
+      top: -10px;
+      left: 0;
+    }
+
+    .heart::after {
+      left: -10px;
+      top: 0;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.8;
+      }
+      100% {
+        transform: translateY(-10vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts">
+    <!-- Se generan corazones de forma aleatoria -->
+    <script>
+      for (let i = 0; i < 30; i++) {
+        const heart = document.createElement("div");
+        heart.className = "heart";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.animationDelay = Math.random() * 5 + "s";
+        heart.style.width = heart.style.height = 15 + Math.random() * 10 + "px";
+        document.querySelector(".hearts").appendChild(heart);
+      }
+    </script>
+  </div>
+
+  <h1>💖 ¡Feliz 15° Aniversario, Directioner! 💖</h1>
+  <p>
+    Hoy celebramos 15 años de amor, música y memorias junto a <strong>One Direction</strong>.  
+    
+    Así como One Direction cambió la historia de la música, vos cambiaste la historia de mi vida desde el momento en que llegaste.
+Ellos nos regalaron canciones que marcaron una generación, y vos me regalás días que marcan mi corazón.
+Y así como ellos hicieron historia… sé que nosotros también la vamos a escribir, juntos.  
+    ¡Esto es para vos, mi Directioner favorita! 💫
+  </p>
+
+  <div class="gif-container">
+    <img src="https://31.media.tumblr.com/e4a0c570bfa8f132ae0d7427f7d8fdb0/tumblr_nf541dKd8B1rpr239o1_500.gif" alt="One Direction gif">
+  </div>
+
+  <p>
+    <em>Desde “What Makes You Beautiful” hasta “History”...  
+    esta historia sigue viva en nuestros corazones 💕</em>
+  </p>
+<!-- Reproductor de YouTube en segundo plano -->
+<!-- Reproductor de YouTube y botón -->
+<button onclick="startMusic()" style="
+  padding: 15px 25px;
+  font-size: 1.2rem;
+  background-color: #d63384;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-top: 30px;
+">🎶 Haz clic para comenzar esta sorpresa 🎶</button>
+
+<div id="player"></div>
+
+<script>
+  var tag = document.createElement('script');
+  tag.src = "https://www.youtube.com/iframe_api";
+  var firstScriptTag = document.getElementsByTagName('script')[0];
+  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+  var player;
+
+  function onYouTubeIframeAPIReady() {
+    player = new YT.Player('player', {
+      height: '0',
+      width: '0',
+      videoId: 'F-U2f0_ki2Q',
+      playerVars: {
+        autoplay: 0,
+        loop: 1,
+        playlist: 'F-U2f0_ki2Q'
+      }
+    });
+  }
+
+  function startMusic() {
+    if (player && player.playVideo) {
+      player.setVolume(50);
+      player.playVideo();
+    }
+  }
+</script>
+
+
+</body>
+</html>
