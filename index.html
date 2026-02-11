@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>¿Querés ser mi San Valentín? 💘</title>
+
   <style>
     body {
       margin: 0;
@@ -52,6 +53,17 @@
     #yes:hover { transform: scale(1.1); }
     #no { background: #ccc; position: relative; }
 
+    #musicBtn {
+      padding: 15px 25px;
+      font-size: 1.1rem;
+      background-color: #d63384;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      margin-bottom: 20px;
+    }
+
     .heart {
       position: absolute;
       font-size: 20px;
@@ -68,30 +80,20 @@
       from { opacity: 0; transform: scale(0.9); }
       to { opacity: 1; transform: scale(1); }
     }
-
-    /* Botón para iniciar música */
-    #musicBtn {
-      padding: 15px 25px;
-      font-size: 1.2rem;
-      background-color: #d63384;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      cursor: pointer;
-      margin-bottom: 20px;
-    }
   </style>
 </head>
+
 <body>
 
   <div class="card" id="card">
 
+    <!-- AUDIO -->
+    <audio id="music" loop preload="auto">
+      <source src="musica.mp3" type="audio/mpeg">
+      Tu navegador no soporta audio.
+    </audio>
+
     <!-- BOTÓN DE MÚSICA -->
-<audio id="music" loop>
-  <source src="Justin_Bieber_One_Less_Lonely_Girl.mp3" type="audio/mpeg">
-</audio>
-
-
     <button id="musicBtn">💖 Antes que nada, presioná acá 💖</button>
 
     <!-- MENSAJE -->
@@ -101,13 +103,32 @@
 
     <h2 class="highlight">¿Querés ser mi San Valentín? 💘</h2>
 
-    <!-- BOTONES SÍ / NO -->
     <button id="yes">Sí 💕</button>
     <button id="no">No 😢</button>
+
   </div>
 
-  <!-- CORAZONES DE FONDO -->
   <script>
+    const music = document.getElementById("music");
+    const musicBtn = document.getElementById("musicBtn");
+
+    // Reproducir música
+    musicBtn.addEventListener("click", function () {
+      music.volume = 0.5;
+
+      const playPromise = music.play();
+
+      if (playPromise !== undefined) {
+        playPromise.then(() => {
+          musicBtn.style.display = "none";
+        }).catch(error => {
+          alert("No se pudo reproducir la música 😢");
+          console.log(error);
+        });
+      }
+    });
+
+    // Corazones flotando
     setInterval(() => {
       const heart = document.createElement("div");
       heart.classList.add("heart");
@@ -118,48 +139,24 @@
       document.body.appendChild(heart);
       setTimeout(() => heart.remove(), 5000);
     }, 400);
-  </script>
-
-  <!-- SCRIPT DE MÚSICA Y BOTONES -->
-  <script>
-    const music = document.getElementById("music");
-    const musicBtn = document.getElementById("musicBtn");
-
-    // BOTÓN PARA REPRODUCIR MÚSICA
-    musicBtn.addEventListener("click", () => {
-      music.play();
-      music.volume = 0.5;
-      musicBtn.style.display = "none";
-    });
 
     const yesBtn = document.getElementById("yes");
     const noBtn = document.getElementById("no");
     const card = document.getElementById("card");
 
-    // SI PRESIONA "SÍ"
     yesBtn.addEventListener("click", () => {
       card.innerHTML = `
         <h1>💖 Sabía que dirías que sí 💖</h1>
         <p>Desde hoy, cada canción va a recordarme a vos.</p>
         <p class="highlight">Te amo 💘</p>
       `;
-      // Corazones extra
-      for(let i=0;i<40;i++){
-        const h = document.createElement("div");
-        h.classList.add("heart");
-        h.innerHTML = "💖";
-        h.style.left = Math.random()*100 + "vw";
-        h.style.top = "100vh";
-        h.style.animationDuration = Math.random()*2 + 3 + "s";
-        document.body.appendChild(h);
-        setTimeout(()=>h.remove(),5000);
-      }
     });
 
-    // SI PASA EL MOUSE SOBRE "NO"
     noBtn.addEventListener("mouseover", () => {
-      noBtn.style.transform = `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
+      noBtn.style.transform =
+        \`translate(\${Math.random()*200-100}px, \${Math.random()*200-100}px)\`;
     });
+
   </script>
 
 </body>
