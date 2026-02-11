@@ -1,165 +1,124 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>¿Querés ser mi San Valentín? 💘</title>
+<meta charset="UTF-8">
+<title>¿Querés ser mi San Valentín? 💘</title>
 
-  <style>
-    body {
-      margin: 0;
-      height: 100vh;
-      background: linear-gradient(-45deg, #ff9a9e, #fad0c4, #fbc2eb, #a18cd1);
-      background-size: 400% 400%;
-      animation: gradient 12s ease infinite;
-      font-family: 'Segoe UI', sans-serif;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-      text-align: center;
-    }
+<style>
+body{
+  margin:0;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  font-family:'Segoe UI',sans-serif;
+  background:linear-gradient(-45deg,#ff9a9e,#fad0c4,#fbc2eb,#a18cd1);
+  background-size:400% 400%;
+  animation:gradient 12s ease infinite;
+  overflow:hidden;
+  text-align:center;
+}
 
-    @keyframes gradient {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
+@keyframes gradient{
+  0%{background-position:0% 50%;}
+  50%{background-position:100% 50%;}
+  100%{background-position:0% 50%;}
+}
 
-    .card {
-      background: white;
-      padding: 40px;
-      border-radius: 20px;
-      width: 90%;
-      max-width: 450px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-      animation: fadeIn 1.5s ease;
-    }
+.card{
+  background:white;
+  padding:40px;
+  border-radius:20px;
+  width:90%;
+  max-width:450px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.2);
+}
 
-    h1 { color: #ff4d6d; }
-    p { color: #555; font-size: 16px; line-height: 1.5; }
-    .highlight { color: #ff4d6d; font-weight: bold; }
+button{
+  margin:10px;
+  padding:12px 25px;
+  border:none;
+  border-radius:30px;
+  font-size:16px;
+  cursor:pointer;
+  transition:0.3s;
+}
 
-    button {
-      margin: 15px;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 30px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: 0.3s;
-    }
+#yes{background:#ff4d6d;color:white;}
+#yes:hover{transform:scale(1.1);}
+#no{background:#ccc;position:relative;}
 
-    #yes { background: #ff4d6d; color: white; }
-    #yes:hover { transform: scale(1.1); }
-    #no { background: #ccc; position: relative; }
-
-    #musicBtn {
-      padding: 15px 25px;
-      font-size: 1rem;
-      background-color: #d63384;
-      color: white;
-      border-radius: 10px;
-    }
-
-    .heart {
-      position: absolute;
-      font-size: 20px;
-      color: #ff4d6d;
-      animation: float 4s linear infinite;
-    }
-
-    @keyframes float {
-      0% { transform: translateY(0); opacity: 1; }
-      100% { transform: translateY(-800px); opacity: 0; }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-  </style>
+#musicBtn{
+  background:#d63384;
+  color:white;
+}
+</style>
 </head>
 <body>
 
-  <div class="card" id="card">
+<div class="card" id="card">
 
-    <button id="musicBtn">💖 Antes que nada, presioná acá 💖</button>
+<button id="musicBtn">💖 Antes que nada, presioná acá 💖</button>
 
-    <h1>💖 Hey vos 💖</h1>
-    <p>Entre letras, melodías y silencios, hay sentimientos que no se pueden fingir.</p>
-    <p>Vos sos uno de ellos 🥰 y por eso quiero preguntarte algo muy importante…</p>
+<h1>💖 Hey vos 💖</h1>
+<p>Entre letras y melodías hay sentimientos que no se pueden fingir…</p>
+<h2>¿Querés ser mi San Valentín? 💘</h2>
 
-    <h2 class="highlight">¿Querés ser mi San Valentín? 💘</h2>
+<button id="yes">Sí 💕</button>
+<button id="no">No 😢</button>
 
-    <button id="yes">Sí 💕</button>
-    <button id="no">No 😢</button>
-  </div>
+</div>
 
-  <!-- CONTENEDOR OCULTO DEL REPRODUCTOR -->
-  <div id="player"></div>
+<!-- DIV OBLIGATORIO PARA YOUTUBE -->
+<div id="player"></div>
 
-  <!-- CORAZONES FLOTANDO -->
-  <script>
-    setInterval(() => {
-      const heart = document.createElement("div");
-      heart.classList.add("heart");
-      heart.innerHTML = "💖";
-      heart.style.left = Math.random() * 100 + "vw";
-      heart.style.top = "100vh";
-      heart.style.animationDuration = Math.random() * 2 + 3 + "s";
-      document.body.appendChild(heart);
-      setTimeout(() => heart.remove(), 5000);
-    }, 400);
-  </script>
+<script>
+let player;
 
-  <!-- YOUTUBE API -->
-  <script>
-    var tag = document.createElement('script');
-    tag.src = "https://www.youtube.com/iframe_api";
-    var firstScriptTag = document.getElementsByTagName('script')[0];
-    firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+// Cargar API YouTube
+var tag=document.createElement('script');
+tag.src="https://www.youtube.com/iframe_api";
+document.body.appendChild(tag);
 
-    var player;
-
-    function onYouTubeIframeAPIReady() {
-      player = new YT.Player('player', {
-        height: '0',
-        width: '0',
-        videoId: 'LXUSaVw3Mvk',
-        playerVars: {
-          autoplay: 0,
-          loop: 1,
-          playlist: 'LXUSaVw3Mvk'
-        }
-      });
+// Cuando la API está lista
+function onYouTubeIframeAPIReady(){
+  player=new YT.Player('player',{
+    height:'0',
+    width:'0',
+    videoId:'LXUSaVw3Mvk', // TU VIDEO ID
+    playerVars:{
+      autoplay:0,
+      loop:1,
+      playlist:'LXUSaVw3Mvk'
     }
+  });
+}
 
-    document.getElementById("musicBtn").addEventListener("click", function() {
-      if (player && player.playVideo) {
-        player.setVolume(50);
-        player.playVideo();
-        this.style.display = "none";
-      }
-    });
+// Botón música
+document.getElementById("musicBtn").addEventListener("click",function(){
+  if(player){
+    player.setVolume(50);
+    player.playVideo();
+  }
+  this.style.display="none";
+});
 
-    const yesBtn = document.getElementById("yes");
-    const noBtn = document.getElementById("no");
-    const card = document.getElementById("card");
+// Botón Sí
+document.getElementById("yes").addEventListener("click",function(){
+  document.getElementById("card").innerHTML=`
+  <h1>💖 Sabía que dirías que sí 💖</h1>
+  <p>Ahora cada canción va a sonar más linda porque es con vos.</p>
+  <h2>Te amo 💘</h2>
+  `;
+});
 
-    yesBtn.addEventListener("click", () => {
-      card.innerHTML = `
-        <h1>💖 Sabía que dirías que sí 💖</h1>
-        <p>Desde hoy, cada canción va a recordarme a vos.</p>
-        <p class="highlight">Te amo 💘</p>
-      `;
-    });
-
-    noBtn.addEventListener("mouseover", () => {
-      noBtn.style.transform = 
-        `translate(${Math.random()*200-100}px, ${Math.random()*200-100}px)`;
-    });
-  </script>
+// Botón No que escapa
+document.getElementById("no").addEventListener("mouseover",function(){
+  this.style.position="absolute";
+  this.style.left=Math.random()*300+"px";
+  this.style.top=Math.random()*300+"px";
+});
+</script>
 
 </body>
 </html>
-
